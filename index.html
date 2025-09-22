@@ -3,374 +3,298 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Weight‑Loss Tips — Adaptive Flashcards</title>
+  <title>Patient-Friendly Weight-Loss Flashcards</title>
   <style>
-    :root {
-      --bg: #0b1220;
-      --panel: #121b2e;
-      --accent: #6ee7ff;
-      --accent2: #a7f3d0;
-      --text: #e6edf7;
-      --muted: #9fb0c7;
-      --danger: #ff6b6b;
-      --success: #34d399;
-      --warning: #fbbf24;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 800px at 10% -10%, #1a2440 0%, var(--bg) 40%), linear-gradient(#0a0f1e, #0b1220);
-      color: var(--text);
-      min-height:100svh; display:flex; align-items:center; justify-content:center; padding:24px;
-    }
-    .app{width: min(1080px, 100%);} 
-    .card{background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; padding: 20px; box-shadow: var(--shadow);} 
-    header{display:flex; align-items:center; gap:16px; margin-bottom:16px; flex-wrap:wrap}
-    .brand{font-weight:700; letter-spacing:.2px}
-    .pill{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); padding:6px 10px; border-radius:999px; font-size:12px; color:var(--muted);} 
-    .grid{display:grid; grid-template-columns: 1fr; gap:14px}
-    @media (min-width:860px){.grid{grid-template-columns: 2fr 1fr}}
-    .panel{background: var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:16px}
-    h1{font-size: clamp(18px, 2.2vw, 24px); margin:0 0 6px}
-    .q-meta{display:flex; gap:8px; flex-wrap:wrap; color:var(--muted); font-size:13px}
-    .question{font-size: clamp(18px, 2.2vw, 22px); line-height:1.35; margin: 6px 0 8px}
-    .options{display:grid; grid-template-columns: 1fr; gap:10px; margin-top:10px}
-    .btn{width:100%; text-align:left; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:#0f1628; color:var(--text); cursor:pointer; transition: transform .03s ease, background .2s; box-shadow: inset 0 0 0 0 rgba(255,255,255,.05);} 
-    .btn:hover{background:#121c33}
-    .btn:active{transform: translateY(1px)}
-    .btn.correct{border-color: rgba(52,211,153,.7); background: linear-gradient(0deg, rgba(52,211,153,.12), transparent)}
-    .btn.wrong{border-color: rgba(255,107,107,.6); background: linear-gradient(0deg, rgba(255,107,107,.12), transparent)}
-    .controls{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
-    .control{padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0f172a; color:var(--text); cursor:pointer}
-    .control.secondary{background:#0b1325}
-    .hint{color:var(--accent2); font-size:14px; margin-top:6px; display:none}
+    body{margin:0;font-family:system-ui,Arial,Inter,Segoe UI;background:#0b1220;color:#e6edf7;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+    .app{max-width:1080px;width:100%}
+    .card{background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:20px}
+    header{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+    .pill{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:6px 12px;border-radius:999px;font-size:13px;color:#9fb0c7}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    @media(min-width:900px){.grid{grid-template-columns:2fr 1fr}}
+    .panel{background:#121b2e;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px}
+    .question{font-size:20px;font-weight:700;line-height:1.35;margin:12px 0 8px}
+    #qMeta{color:#9fb0c7;font-size:13px}
+    .options{display:grid;gap:10px}
+    .btn{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0b1325;color:#e6edf7;text-align:left;cursor:pointer}
+    .btn:hover{background:#0f172a}
+    .btn.correct{border-color:#34d399;background:linear-gradient(0deg,rgba(52,211,153,.18),transparent)}
+    .btn.wrong{border-color:#f87171;background:linear-gradient(0deg,rgba(248,113,113,.18),transparent)}
+    .controls{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+    .control{padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0f172a;color:#e6edf7;cursor:pointer}
+    .hint{color:#a7f3d0;margin-top:8px;display:none}
     .hint.show{display:block}
-    .stats{display:grid; grid-template-columns: repeat(2,1fr); gap:10px}
-    .kpi{background:#0f172a; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px}
-    .kpi .big{font-size:22px; font-weight:700}
-    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
-    .tag{font-size:12px; padding:6px 8px; border-radius:999px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); color:var(--muted)}
-    .badge{display:flex; align-items:center; gap:8px; background:linear-gradient(180deg, rgba(167,243,208,.15), rgba(167,243,208,.05)); border:1px solid rgba(167,243,208,.25); color:#d1fae5; padding:10px 12px; border-radius:12px}
-    .toast{position: fixed; inset:auto 16px 16px auto; background:#0b1325; border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:10px 12px; color:var(--text); box-shadow: var(--shadow); display:none}
-    .toast.show{display:block}
-    .progress{height:8px; background:rgba(255,255,255,.1); border-radius:999px; overflow:hidden}
-    .progress > div{height:100%; width:0%; background: linear-gradient(90deg, var(--accent), #b3e1ff);} 
-    .heroImg{width:100%; height:160px; border-radius:12px; background: linear-gradient(135deg, #1e293b, #0b1220); border:1px solid rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; overflow:hidden}
-    .heroImg svg{width:100%; height:100%; object-fit:cover}
-
-    /* Modal */
-    .modal{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.6); backdrop-filter: blur(3px);} 
-    .modal[hidden]{display:none !important;} 
-    .sheet{width:min(520px, 92%); background:var(--panel); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:18px; box-shadow: var(--shadow)}
-    .row{display:flex; gap:10px; align-items:center; margin:8px 0}
-    label{font-size:14px; color:var(--muted)}
-    input[type="text"]{width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:#0f172a; color:var(--text)}
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .kpi{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px;text-align:center}
+    .kpi .big{font-size:22px;font-weight:800}
+    .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#9fb0c7}
+    .badge{margin-top:10px;display:none;background:linear-gradient(180deg,rgba(167,243,208,.18),rgba(167,243,208,.05));border:1px solid rgba(167,243,208,.28);color:#d1fae5;padding:10px;border-radius:12px}
+    .badge.show{display:block}
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(2px)}
+    .modal[hidden]{display:none!important}
+    .modal-content{background:#121b2e;border:1px solid rgba(255,255,255,.12);padding:18px;border-radius:14px;max-width:420px;width:92%}
+    .modal-content input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0f172a;color:#e6edf7}
+    .progress{height:8px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden}
+    .progress>div{height:100%;width:0%;background:linear-gradient(90deg,#6ee7ff,#b3e1ff)}
+    svg#hero{width:100%;height:160px}
   </style>
 </head>
 <body>
   <div class="app">
     <div class="card">
       <header>
-        <div class="brand">💪 Patient‑Friendly Weight‑Loss Flashcards</div>
         <span class="pill" id="userPill">👤 Guest</span>
         <span class="pill" id="streakPill">🔥 Streak: 0</span>
         <span class="pill" id="accuracyPill">✅ Accuracy: 0%</span>
         <span class="pill" id="badgePill">🏅 Badges: 0</span>
-        <button class="pill" id="settingsBtn" title="Profile">⚙️ Settings</button>
       </header>
+
       <div class="grid">
-        <!-- Left: Flashcard panel -->
         <div class="panel" aria-live="polite">
-          <div class="heroImg" aria-hidden="true" id="hero">
-            <!-- Inline SVG illustration (nutrition/activity theme) -->
-            <svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Healthy lifestyle illustration">
-              <defs>
-                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ee7ff"/><stop offset="1" stop-color="#a7f3d0"/></linearGradient>
-              </defs>
-              <rect width="600" height="180" fill="#0e1629"/>
-              <circle cx="90" cy="90" r="55" fill="url(#g1)" opacity=".25"/>
-              <rect x="60" y="65" width="60" height="50" rx="10" fill="url(#g1)" opacity=".5"/>
-              <rect x="200" y="50" width="90" height="80" rx="12" fill="#1f2a44" stroke="#6ee7ff" opacity=".8"/>
-              <rect x="215" y="65" width="60" height="10" rx="5" fill="#6ee7ff"/>
-              <rect x="215" y="85" width="60" height="10" rx="5" fill="#a7f3d0"/>
-              <rect x="215" y="105" width="60" height="10" rx="5" fill="#6ee7ff"/>
-              <g transform="translate(350,40)">
-                <path d="M0 60 C20 30, 40 90, 60 60" stroke="#a7f3d0" stroke-width="6" fill="none"/>
-                <circle cx="0" cy="60" r="5" fill="#a7f3d0"/>
-                <circle cx="60" cy="60" r="5" fill="#6ee7ff"/>
-              </g>
-              <g transform="translate(470,40)">
-                <rect x="0" y="0" width="100" height="80" rx="12" fill="#1f2a44" stroke="#a7f3d0"/>
-                <rect x="10" y="50" width="80" height="20" rx="10" fill="#6ee7ff"/>
-              </g>
-            </svg>
-          </div>
-          <div class="q-meta">
-            <span id="qIndex">Question 1 / 100</span>
-            <span>•</span>
-            <span id="refs">Refs: –</span>
-          </div>
-          <h1 class="question" id="question">Loading…</h1>
+          <!-- SVG pictures header -->
+          <svg id="hero" viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Healthy lifestyle illustration"></svg>
+
+          <div id="qMeta"><span id="qIndex">Question 1 / 100</span> • <span id="refs">Refs: –</span></div>
+          <div class="question" id="question">Loading…</div>
           <div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
           <div class="options" id="options"></div>
-          <div id="hint" class="hint">Hint will appear here.</div>
+          <div id="hint" class="hint">Hint</div>
           <div class="controls">
             <button class="control" id="hintBtn">💡 Hint</button>
-            <button class="control secondary" id="skipBtn">⏭️ Skip</button>
+            <button class="control" id="skipBtn">⏭️ Skip</button>
             <button class="control" id="nextBtn" disabled>Next ▶</button>
-            <button class="control secondary" id="resetBtn" title="Erase local progress">🗑️ Reset</button>
+            <button class="control" id="resetBtn">🗑️ Reset</button>
           </div>
         </div>
-        <!-- Right: Stats/Badges/Techniques -->
+
         <div class="panel">
-          <h2 style="margin:0 0 8px; font-size:18px">Your Progress</h2>
+          <h3 style="margin:0 0 8px">Your Progress</h3>
           <div class="stats">
             <div class="kpi"><div class="big" id="kpiCorrect">0</div><div>Correct</div></div>
             <div class="kpi"><div class="big" id="kpiTotal">0</div><div>Answered</div></div>
           </div>
-          <div class="tags" id="badges" style="margin-top:10px"></div>
-          <div style="margin-top:12px" class="badge" id="sessionBadge" hidden>
-            <span>🎉 New Badge:</span> <strong id="badgeName">Starter</strong>
-          </div>
-          <h3 style="margin:16px 0 6px; font-size:16px">Techniques Used</h3>
-          <ul class="tech-list" style="margin:0 0 6px 18px; color:var(--muted); line-height:1.55">
-            <li><strong>Spaced practice</strong>: missed cards reappear after a short gap.</li>
+          <div class="tags" id="badges"></div>
+          <div class="badge" id="newBadge">🎉 New Badge: <strong id="badgeName">Starter</strong></div>
+
+          <h4 style="margin:14px 0 6px">Techniques Used</h4>
+          <ul style="margin:0 0 0 18px;color:#9fb0c7;line-height:1.55">
+            <li><strong>Spaced practice</strong>: missed cards reappear.</li>
             <li><strong>Adaptive difficulty</strong>: streaks promote; errors resurface soon.</li>
-            <li><strong>Hints on demand</strong>: gentle scaffolding before answers.</li>
-            <li><strong>Environment design</strong>: label reading, smaller plates, kitchen‑serve.</li>
-            <li><strong>Positive feedback</strong>: badges, streaks, small wins.</li>
-            <li><strong>Micro‑sessions</strong>: quick 5–10 card bursts to reduce friction.</li>
-            <li><strong>Local privacy</strong>: stored in this browser only.</li>
+            <li><strong>Hints on demand</strong> before answers.</li>
+            <li><strong>Environment design</strong>: labels, smaller plates, kitchen-serve.</li>
+            <li><strong>Positive feedback</strong>: badges, streaks, sounds.</li>
+            <li><strong>Local privacy</strong>: saved in this browser only.</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Profile (name only) -->
-  <div class="modal" id="profileModal" hidden>
-    <div class="sheet">
-      <h2 style="margin:0 0 8px; font-size:20px">Welcome</h2>
-      <p style="margin:0 0 10px; color:var(--muted)">Please enter your display name. This is saved only on this device.</p>
-      <div class="row"><label for="name">Display name</label></div>
-      <div class="row"><input id="name" type="text" placeholder="e.g., Guest" autocomplete="name" /></div>
-      <div class="row" style="justify-content:flex-end; gap:8px">
+  <!-- Name modal -->
+  <div class="modal" id="profileModal">
+    <div class="modal-content">
+      <h2 style="margin:0 0 6px">Welcome</h2>
+      <p style="margin:0 0 10px;color:#9fb0c7">Please enter your display name. This is saved only on this device.</p>
+      <input id="nameInput" placeholder="Your name" />
+      <div style="display:flex;justify-content:flex-end;margin-top:12px">
         <button class="control" id="saveProfile" type="button">Save</button>
       </div>
     </div>
   </div>
 
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+/* ---------- tiny sounds ---------- */
+const beep=(f=880,t='sine',d=.08,g=.05)=>{try{const c=new (window.AudioContext||window.webkitAudioContext)();const o=c.createOscillator();const m=c.createGain();o.type=t;o.frequency.value=f;m.gain.value=g;o.connect(m);m.connect(c.destination);o.start();setTimeout(()=>{o.stop();c.close();},d*1000);}catch(e){}};
 
-  <script>
-    // --- Tiny sound feedback ---
-    const beep = (freq=880, type='sine', dur=0.08, gain=0.05) => {
-      try{ const ctx = new (window.AudioContext||window.webkitAudioContext)();
-        const o = ctx.createOscillator(); const g = ctx.createGain();
-        o.type = type; o.frequency.value = freq; g.gain.value = gain; o.connect(g); g.connect(ctx.destination);
-        o.start(); setTimeout(()=>{o.stop(); ctx.close();}, dur*1000);
-      }catch(e){}
-    };
+/* ---------- svg header ---------- */
+const hero=document.getElementById('hero');
+function drawHero(){
+  const colors=['#34d399','#60a5fa','#f472b6','#facc15','#a78bfa','#22d3ee','#fb7185'];
+  const c=()=>colors[Math.floor(Math.random()*colors.length)];
+  hero.innerHTML = `
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${c()}"/><stop offset="1" stop-color="${c()}"/></linearGradient>
+    </defs>
+    <rect width="600" height="160" fill="#0e1629"/>
+    <circle cx="110" cy="80" r="36" fill="url(#g)" opacity=".9"/>
+    <rect x="210" y="52" width="64" height="56" rx="12" fill="${c()}" opacity=".9"/>
+    <path d="M320 80 Q340 50 365 80 T410 80" stroke="${c()}" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <rect x="460" y="56" width="80" height="48" rx="12" fill="none" stroke="${c()}" stroke-width="5"/>
+  `;
+}
 
-    // --- Question bank (100) — neutral scenarios (no personal names)
-    const BANK = [
-      {id:1, question:"Setting a goal of losing 20 pounds in two weeks is realistic.", options:["True","False"], correctIndex:1, hint:"Healthy pace: ~1–2 lb/week.", reference:[1,2,3]},
-      {id:2, question:"What’s a healthier weight loss target?", options:["1–2 pounds per week","5–10 pounds per week","As fast as possible"], correctIndex:0, hint:"Slow and steady wins.", reference:[1,2,3]},
-      {id:3, question:"Someone wants to 'eat healthier'. Which is a SMART goal?", options:["Eat 1 cup of vegetables at lunch daily this week","Try to be better","Skip goals and see"], correctIndex:0, hint:"Specific + time‑bound.", reference:[4,5]},
-      {id:4, question:"What’s one benefit of tracking food daily?", options:["Notice patterns","Guarantees weight loss","Makes food taste better"], correctIndex:0, hint:"Awareness → change.", reference:[4,5,6]},
-      {id:5, question:"Weighing once a month is the best way to track progress.", options:["True","False"], correctIndex:1, hint:"Weekly or more gives feedback.", reference:[4,5,6]},
-      {id:6, question:"Someone forgot to log lunch for 3 days. Best next step?", options:["Quit tracking","Restart today","Wait until next week"], correctIndex:1, hint:"Perfection not required.", reference:[4,5,6]},
-      {id:7, question:"One easy way to reduce portion sizes is to…", options:["Use a smaller plate","Eat from the package","Skip vegetables"], correctIndex:0, hint:"Visual cues matter.", reference:[4,7]},
-      {id:8, question:"Which food is ultraprocessed?", options:["Apple","Chips","Brown rice"], correctIndex:1, hint:"Often bag/box + additives.", reference:[4,7]},
-      {id:9, question:"At a buffet, a simple strategy to prevent overeating is…", options:["Serve once from the kitchen","Pile food high","Skip veggies for dessert"], correctIndex:0, hint:"Distance helps.", reference:[4,7]},
-      {id:10, question:"Which should you aim to increase?", options:["Fruits & vegetables","Sugary drinks","Fried foods"], correctIndex:0, hint:"Fiber + nutrients help.", reference:[4,7]},
-      {id:11, question:"Skipping breakfast always helps with weight loss.", options:["True","False"], correctIndex:1, hint:"Consistency often wins.", reference:[5]},
-      {id:12, question:"Planning snacks ahead helps prevent…", options:["Impulse eating","Hunger","Drinking water"], correctIndex:0, hint:"Plan beats impulse.", reference:[5]},
-      {id:13, question:"Someone eats dinner with TV on and overeats. Best fix?", options:["Turn off screens & eat mindfully","Eat faster","Skip dinner"], correctIndex:0, hint:"Focus on the meal.", reference:[4,5]},
-      {id:14, question:"Healthier plate size to use is…", options:["10 inches","12 inches","Bigger is better"], correctIndex:0, hint:"Smaller plate → smaller portions.", reference:[4,5]},
-      {id:15, question:"Recommended moderate aerobic activity per week is…", options:["≥150 minutes","≥60 minutes","None if you lift"], correctIndex:0, hint:"Think 30 min × 5 days.", reference:[1,5]},
-      {id:16, question:"Only resistance training matters for weight loss.", options:["True","False"], correctIndex:1, hint:"Cardio + strength together.", reference:[4,5]},
-      {id:17, question:"A person sits all day. Small change to move more?", options:["Stand/walk breaks hourly","Skip lunch","Drink soda"], correctIndex:0, hint:"Break up sitting.", reference:[4,5]},
-      {id:18, question:"Which counts as resistance training?", options:["Resistance bands at home","Walking only","TV remote reps"], correctIndex:0, hint:"Bands or weights work.", reference:[4,5]},
-      {id:19, question:"Why does sleep matter for weight?", options:["It affects hunger hormones","It burns 1000 kcal/hour","It doesn’t matter"], correctIndex:0, hint:"Poor sleep → cravings.", reference:[4]},
-      {id:20, question:"Stress has no effect on eating habits.", options:["True","False"], correctIndex:1, hint:"Stress can drive snacking.", reference:[4]},
-      {id:21, question:"A person stress‑snacks nightly. Healthier coping?", options:["Meditation/walk/tea","Skip meals all day","Keep snacks by bed"], correctIndex:0, hint:"Swap the cue response.", reference:[4]},
-      {id:22, question:"Adults should aim for how many hours of sleep?", options:["7–9 hours","4–5 hours","10–12 hours"], correctIndex:0, hint:"Most do best 7–9.", reference:[4]},
-      {id:23, question:"Eat until you’re ____, not stuffed.", options:["satisfied","curious","sleepy"], correctIndex:0, hint:"Comfortable, not full.", reference:[4,5]},
-      {id:24, question:"Eating slowly can help you feel satisfied with less.", options:["True","False"], correctIndex:0, hint:"Give fullness time to register.", reference:[4,5]},
-      {id:25, question:"A person eats dessert when sad. First step?", options:["Notice trigger & plan a swap","Hide scale","Skip breakfast"], correctIndex:0, hint:"Name the feeling, pick an action.", reference:[4,5]},
-      {id:26, question:"Which helps with mindful eating?", options:["Chew thoroughly","Eat while scrolling","Race to finish"], correctIndex:0, hint:"Slow + present.", reference:[4,5]},
-      {id:27, question:"Joining a support group can improve success.", options:["True","False"], correctIndex:0, hint:"Accountability helps.", reference:[3,6]},
-      {id:28, question:"Friends push fast food. Stay on track by…", options:["Suggesting a healthier spot","Skipping social life","Ordering two meals"], correctIndex:0, hint:"Plan & advocate.", reference:[3,6]},
-      {id:29, question:"Who can help with meal planning?", options:["Registered dietitian","Random influencer","No one"], correctIndex:0, hint:"Seek credentialed help.", reference:[1,5]},
-      {id:30, question:"Involving family/friends makes it __ to stick to habits.", options:["easier","harder","impossible"], correctIndex:0, hint:"Social support matters.", reference:[3,6]},
-      {id:31, question:"Serving from the kitchen (not table) helps because…", options:["Food is less tempting","It’s trendier","Plates get bigger"], correctIndex:0, hint:"Out of sight, out of mind.", reference:[4,5]},
-      {id:32, question:"Keeping unhealthy snacks at home makes them harder to eat.", options:["True","False"], correctIndex:1, hint:"Availability drives intake.", reference:[5]},
-      {id:33, question:"Shopping while hungry leads to chips. Fix?", options:["Eat a snack & bring a list","Wander aisles hungry","Buy extra treats"], correctIndex:0, hint:"Plan before you go.", reference:[5]},
-      {id:34, question:"Why shop with a list?", options:["Fewer impulse buys","It’s fun","You walk less"], correctIndex:0, hint:"Pre‑decide healthy picks.", reference:[5]},
-      {id:35, question:"Which nutrient should you increase?", options:["Fiber","Added sugar","Sodium"], correctIndex:0, hint:"Fiber supports fullness.", reference:[8]},
-      {id:36, question:"Reading nutrition labels helps healthier choices.", options:["True","False"], correctIndex:0, hint:"Know what’s inside.", reference:[5]},
-      {id:37, question:"Which is a lean protein?", options:["Skinless chicken","Bacon","Sausage"], correctIndex:0, hint:"Lower fat, good protein.", reference:[5]},
-      {id:38, question:"Best drink for weight management?", options:["Water","Soda","Juice"], correctIndex:0, hint:"Liquid calories add up.", reference:[5]},
-      {id:39, question:"Preparing meals at home helps you…", options:["Control ingredients","Spend more by default","Eat mindlessly"], correctIndex:0, hint:"You control portions.", reference:[4,5]},
-      {id:40, question:"Eating out daily is the best way to control calories.", options:["True","False"], correctIndex:1, hint:"Restaurants add extras.", reference:[4,5]},
-      {id:41, question:"Healthier cooking method:", options:["Baking","Deep‑frying","Double frying"], correctIndex:0, hint:"Less oil = fewer calories.", reference:[5]},
-      {id:42, question:"Late‑night takeout habit. Healthier change?", options:["Prep bulk meals & freeze","Skip all carbs","Only drink coffee"], correctIndex:0, hint:"Make healthy default easy.", reference:[5]},
-      {id:43, question:"Non‑food reward after a goal?", options:["New workout playlist","Cake","Milkshake"], correctIndex:0, hint:"Celebrate without calories.", reference:[4,5]},
-      {id:44, question:"Celebrating milestones can boost motivation.", options:["True","False"], correctIndex:0, hint:"Wins fuel effort.", reference:[4,5]},
-      {id:45, question:"Feeling discouraged after a setback. Healthy response?", options:["Reflect & adjust plan","Quit","Crash diet tomorrow"], correctIndex:0, hint:"Progress isn’t linear.", reference:[4,5]},
-      {id:46, question:"Why reassess goals regularly?", options:["Needs change over time","It’s pointless","To add pressure only"], correctIndex:0, hint:"Adapt to life.", reference:[1,2]},
-      {id:47, question:"Who to consult before very‑low‑calorie diets?", options:["Clinician/dietitian","A stranger online","No one"], correctIndex:0, hint:"Safety first.", reference:[1,2,4]},
-      {id:48, question:"Weight‑loss supplements are safe and effective.", options:["True","False"], correctIndex:1, hint:"Often unproven, risky.", reference:[1,2]},
-      {id:49, question:"When consider weight‑loss meds?", options:["If clinically indicated","Everyone should","Never"], correctIndex:0, hint:"Discuss with clinician.", reference:[1,8]},
-      {id:50, question:"Bariatric surgery is an option for…", options:["Some with severe obesity","Everyone","No one"], correctIndex:0, hint:"Specific criteria apply.", reference:[1,5]},
-      {id:51, question:"SMART stands for…", options:["Specific, Measurable, Achievable, Relevant, Time‑bound","Simple, Magic, Awesome, Rapid, Trendy","Snack, Move, Avoid, Rest, Track"], correctIndex:0, hint:"Project‑style goals.", reference:[4,5]},
-      {id:52, question:"Fad diets are usually best long‑term.", options:["True","False"], correctIndex:1, hint:"Sustainability wins.", reference:[1,2,5]},
-      {id:53, question:"Regained 5 lb after loss. Good step?", options:["Review triggers & plan","Give up","Starve next day"], correctIndex:0, hint:"Relapse planning.", reference:[3]},
-      {id:54, question:"Why reflect on setbacks?", options:["Learn & adjust","Punish yourself","Ignore them"], correctIndex:0, hint:"Data → better plan.", reference:[4,5]},
-      {id:55, question:"Healthier choice:", options:["Take stairs","Elevator always","Moving walkway"], correctIndex:0, hint:"NEAT adds up.", reference:[4,5]},
-      {id:56, question:"Parking farther away can help you move more.", options:["True","False"], correctIndex:0, hint:"Sneak in steps.", reference:[4,5]},
-      {id:57, question:"Sits 8 hours straight. What to change?", options:["Break sitting every hour","Keep sitting","Drink more soda"], correctIndex:0, hint:"Breaks matter.", reference:[4,5]},
-      {id:58, question:"Drinking water before meals can help with…", options:["Fullness","Hunger","Thirst only"], correctIndex:0, hint:"Arrive less hungry.", reference:[5]},
-      {id:59, question:"Benefit of a wearable tracker?", options:["Feedback on activity","Automatically cooks","None"], correctIndex:0, hint:"What gets measured…", reference:[4,5]},
-      {id:60, question:"Digital health tools can support weight management.", options:["True","False"], correctIndex:0, hint:"Apps can aid habits.", reference:[6]},
-      {id:61, question:"Way to monitor activity:", options:["Step count","Guessing","Astrology"], correctIndex:0, hint:"Objective beats guess.", reference:[5]},
-      {id:62, question:"Only 3,000 steps today. Next step?", options:["Plan a short evening walk","Give up for week","Eat extra to compensate"], correctIndex:0, hint:"Small wins now.", reference:[5]},
-      {id:63, question:"Which should you limit?", options:["Processed meats","Vegetables","Whole grains"], correctIndex:0, hint:"Linked to health risks.", reference:[5]},
-      {id:64, question:"Herbs/spices can add flavor without many calories.", options:["True","False"], correctIndex:0, hint:"Boost taste, not kcal.", reference:[5]},
-      {id:65, question:"Higher‑calorie condiment:", options:["Ketchup","Mustard","Salsa"], correctIndex:0, hint:"Watch added sugar.", reference:[5]},
-      {id:66, question:"Someone drinks alcohol daily. Healthier alternative?", options:["Sparkling water with lime","Drink more","Shots instead"], correctIndex:0, hint:"Cut liquid calories.", reference:[5]},
-      {id:67, question:"Why focus on nutrient density?", options:["More nutrients per calorie","More calories per bite","It’s a buzzword only"], correctIndex:0, hint:"Quality over quantity.", reference:[5]},
-      {id:68, question:"Eating with others can improve accountability.", options:["True","False"], correctIndex:0, hint:"Social support again.", reference:[3,6]},
-      {id:69, question:"Self‑efficacy means…", options:["Belief you can do the behavior","A specific diet","Gym membership"], correctIndex:0, hint:"Confidence to act.", reference:[3,6]},
-      {id:70, question:"Trying meditation to reduce stress eating addresses…", options:["Stress management","Protein intake","Sodium"], correctIndex:0, hint:"Lower stress → fewer cravings.", reference:[4]},
-      {id:71, question:"Benefit of adjusting your plan as needed?", options:["Stay realistic & effective","Seems indecisive","Avoid all change"], correctIndex:0, hint:"Adaptation helps.", reference:[1,2]},
-      {id:72, question:"Long‑term sustainable habits beat quick fixes.", options:["True","False"], correctIndex:0, hint:"Think lifestyle.", reference:[1,2,5]},
-      {id:73, question:"Why avoid restrictive fad diets?", options:["Hard to sustain & regain risk","They always work","They’re safest"], correctIndex:0, hint:"Sustainability again.", reference:[1,2,5]},
-      {id:74, question:"Hit a plateau. Healthy next step?", options:["Review intake/activity/sleep","Crash diet","Quit"], correctIndex:0, hint:"Adjust one lever.", reference:[4,5]},
-      {id:75, question:"Adults should sleep…", options:["7–9 hours/night","3–4 hours/night","11–12 hours/night"], correctIndex:0, hint:"Recovery matters.", reference:[4]},
-      {id:76, question:"Why review medications during weight loss?", options:["Some affect weight","For fun","No reason"], correctIndex:0, hint:"Ask clinician.", reference:[2,4]},
-      {id:77, question:"Managing chronic conditions is unrelated to weight.", options:["True","False"], correctIndex:1, hint:"Whole health connects.", reference:[1,2]},
-      {id:78, question:"Role of regular follow‑up?", options:["Accountability & guidance","None","Only weigh you"], correctIndex:0, hint:"Stay supported.", reference:[1,2]},
-      {id:79, question:"Healthier grain choice:", options:["Brown rice","White bread","Pastry"], correctIndex:0, hint:"Choose whole grains.", reference:[4,5]},
-      {id:80, question:"Shopping while hungry increases impulse buys.", options:["True","False"], correctIndex:0, hint:"Eat first, then shop.", reference:[5]},
-      {id:81, question:"Chips visible on counter. Better option?", options:["Keep fruit visible, chips away","Buy more chips","Move chips to desk"], correctIndex:0, hint:"Environment design.", reference:[5]},
-      {id:82, question:"Why freeze leftovers?", options:["Easy healthy meals later","Waste more food","Add calories"], correctIndex:0, hint:"Make healthy the default.", reference:[5]},
-      {id:83, question:"Positive self‑talk can help you stay on track.", options:["True","False"], correctIndex:0, hint:"Mindset matters.", reference:[4,5]},
-      {id:84, question:"Non‑food milestone idea:", options:["New water bottle","Cake slice","Sugary drink"], correctIndex:0, hint:"Reward supports goal.", reference:[4,5]},
-      {id:85, question:"“I’ll never succeed.” Healthier phrase?", options:["“I can improve with practice”","“I’m doomed”","“Why bother”"], correctIndex:0, hint:"Growth mindset.", reference:[4,5]},
-      {id:86, question:"Why celebrate small wins?", options:["Builds momentum","Wastes time","Increases cravings"], correctIndex:0, hint:"Motivation fuel.", reference:[4,5]},
-      {id:87, question:"Better for health:", options:["Break up sitting with short walks","Sit long hours","Avoid moving"], correctIndex:0, hint:"Movement snacks.", reference:[4,5]},
-      {id:88, question:"Walking after meals can improve health.", options:["True","False"], correctIndex:0, hint:"Helps glucose & steps.", reference:[5]},
-      {id:89, question:"Everyday habit to increase steps:", options:["Park farther away","Use escalator always","Drive everywhere"], correctIndex:0, hint:"NEAT again.", reference:[4,5]},
-      {id:90, question:"Exercise feels boring. Strategy?", options:["Try new enjoyable activities","Force same routine","Stop entirely"], correctIndex:0, hint:"Enjoyment → adherence.", reference:[5]},
-      {id:91, question:"Unproven weight‑loss therapies are safe.", options:["True","False"], correctIndex:1, hint:"Be skeptical.", reference:[1,2]},
-      {id:92, question:"Why rely on evidence‑based resources?", options:["Safer, more effective","Trendy","Cheaper always"], correctIndex:0, hint:"Trust quality sources.", reference:[1,2,3]},
-      {id:93, question:"Risk of weight‑loss supplements:", options:["Side effects & interactions","Guaranteed results","Zero risk"], correctIndex:0, hint:"Discuss with clinician.", reference:[1,2]},
-      {id:94, question:"Fad diet on social media. What do you do?", options:["Check credible sources/ask clinician","Follow blindly","Buy all products"], correctIndex:0, hint:"Verify first.", reference:[1,2,3]},
-      {id:95, question:"Why review progress regularly?", options:["Spot trends & adjust","For stress","No benefit"], correctIndex:0, hint:"Course‑correct often.", reference:[4,5]},
-      {id:96, question:"Weight management is a one‑time event.", options:["True","False"], correctIndex:1, hint:"It’s ongoing.", reference:[1,2]},
-      {id:97, question:"Way to stay motivated long term:", options:["Set new realistic goals","Rely on willpower only","Avoid tracking"], correctIndex:0, hint:"Goals guide effort.", reference:[1,2]},
-      {id:98, question:"Reached goal weight. Next step?", options:["Plan maintenance habits & follow‑ups","Stop all habits","Party daily"], correctIndex:0, hint:"Maintain gains.", reference:[1,2]},
-      {id:99, question:"Benefit of food diary after reaching goals:", options:["Maintain awareness","No benefit","Adds calories"], correctIndex:0, hint:"Keep insight.", reference:[4,5]},
-      {id:100, question:"Why is regular follow‑up key?", options:["Support & accountability","No reason","Only for athletes"], correctIndex:0, hint:"Care team matters.", reference:[1,2]}
-    ];
+/* ---------- 100-card bank (neutral language) ---------- */
+const BANK = [
+{id:1,q:"Setting a goal of losing 20 pounds in two weeks is realistic.",opts:["True","False"],correct:1,hint:"Healthy pace is ~1–2 lb/week.",ref:[1,2,3]},
+{id:2,q:"What’s a healthier weight loss target?",opts:["1–2 pounds per week","5–10 pounds per week","As fast as possible"],correct:0,hint:"Slow and steady wins.",ref:[1,2,3]},
+{id:3,q:"Someone wants to 'eat healthier'. Which is a SMART goal?",opts:["Eat 1 cup of vegetables at lunch daily this week","Try to be better","Skip goals and see"],correct:0,hint:"Specific + time-bound.",ref:[4,5]},
+{id:4,q:"What’s one benefit of tracking food daily?",opts:["Notice patterns","Guarantees weight loss","Makes food taste better"],correct:0,hint:"Awareness → change.",ref:[4,5,6]},
+{id:5,q:"Weighing once a month is the best way to track progress.",opts:["True","False"],correct:1,hint:"Weekly or more gives feedback.",ref:[4,5,6]},
+{id:6,q:"Someone forgot to log lunch for 3 days. Best next step?",opts:["Quit tracking","Restart today","Wait until next week"],correct:1,hint:"Perfection not required.",ref:[4,5,6]},
+{id:7,q:"One easy way to reduce portion sizes is to…",opts:["Use a smaller plate","Eat from the package","Skip vegetables"],correct:0,hint:"Visual cues matter.",ref:[4,7]},
+{id:8,q:"Which food is ultraprocessed?",opts:["Apple","Chips","Brown rice"],correct:1,hint:"Often boxed + additives.",ref:[4,7]},
+{id:9,q:"At a buffet, a simple strategy to prevent overeating is…",opts:["Serve once from the kitchen","Pile food high","Skip veggies for dessert"],correct:0,hint:"Distance helps.",ref:[4,7]},
+{id:10,q:"Which should you aim to increase?",opts:["Fruits & vegetables","Sugary drinks","Fried foods"],correct:0,hint:"Fiber + nutrients help.",ref:[4,7]},
+{id:11,q:"Skipping breakfast always helps with weight loss.",opts:["True","False"],correct:1,hint:"Consistency often wins.",ref:[5]},
+{id:12,q:"Planning snacks ahead helps prevent…",opts:["Impulse eating","Hunger","Drinking water"],correct:0,hint:"Plan beats impulse.",ref:[5]},
+{id:13,q:"Someone eats dinner with TV on and overeats. Best fix?",opts:["Turn off screens & eat mindfully","Eat faster","Skip dinner"],correct:0,hint:"Focus on the meal.",ref:[4,5]},
+{id:14,q:"Healthier plate size to use is…",opts:["10 inches","12 inches","Bigger is better"],correct:0,hint:"Smaller plate → smaller portions.",ref:[4,5]},
+{id:15,q:"Recommended moderate aerobic activity per week is…",opts:["≥150 minutes","≥60 minutes","None if you lift"],correct:0,hint:"Think 30 min × 5 days.",ref:[1,5]},
+{id:16,q:"Only resistance training matters for weight loss.",opts:["True","False"],correct:1,hint:"Cardio + strength together.",ref:[4,5]},
+{id:17,q:"A person sits all day. Small change to move more?",opts:["Stand/walk breaks hourly","Skip lunch","Drink soda"],correct:0,hint:"Break up sitting.",ref:[4,5]},
+{id:18,q:"Which counts as resistance training?",opts:["Resistance bands at home","Walking only","TV remote reps"],correct:0,hint:"Bands or weights work.",ref:[4,5]},
+{id:19,q:"Why does sleep matter for weight?",opts:["It affects hunger hormones","It burns 1000 kcal/hour","It doesn’t matter"],correct:0,hint:"Poor sleep → cravings.",ref:[4]},
+{id:20,q:"Stress has no effect on eating habits.",opts:["True","False"],correct:1,hint:"Stress can drive snacking.",ref:[4]},
+{id:21,q:"A person stress-snacks nightly. Healthier coping?",opts:["Meditation/walk/tea","Skip meals all day","Keep snacks by bed"],correct:0,hint:"Swap the cue response.",ref:[4]},
+{id:22,q:"Adults should aim for how many hours of sleep?",opts:["7–9 hours","4–5 hours","10–12 hours"],correct:0,hint:"Most do best 7–9.",ref:[4]},
+{id:23,q:"Eat until you’re ____, not stuffed.",opts:["satisfied","curious","sleepy"],correct:0,hint:"Comfortable, not full.",ref:[4,5]},
+{id:24,q:"Eating slowly can help you feel satisfied with less.",opts:["True","False"],correct:0,hint:"Give fullness time to register.",ref:[4,5]},
+{id:25,q:"A person eats dessert when sad. First step?",opts:["Notice trigger & plan a swap","Hide scale","Skip breakfast"],correct:0,hint:"Name the feeling, pick an action.",ref:[4,5]},
+{id:26,q:"Which helps with mindful eating?",opts:["Chew thoroughly","Eat while scrolling","Race to finish"],correct:0,hint:"Slow + present.",ref:[4,5]},
+{id:27,q:"Joining a support group can improve success.",opts:["True","False"],correct:0,hint:"Accountability helps.",ref:[3,6]},
+{id:28,q:"Friends push fast food. Stay on track by…",opts:["Suggesting a healthier spot","Skipping social life","Ordering two meals"],correct:0,hint:"Plan & advocate.",ref:[3,6]},
+{id:29,q:"Who can help with meal planning?",opts:["Registered dietitian","Random influencer","No one"],correct:0,hint:"Seek credentialed help.",ref:[1,5]},
+{id:30,q:"Involving family/friends makes it __ to stick to habits.",opts:["easier","harder","impossible"],correct:0,hint:"Social support matters.",ref:[3,6]},
+{id:31,q:"Serving from the kitchen (not table) helps because…",opts:["Food is less tempting","It’s trendier","Plates get bigger"],correct:0,hint:"Out of sight, out of mind.",ref:[4,5]},
+{id:32,q:"Keeping unhealthy snacks at home makes them harder to eat.",opts:["True","False"],correct:1,hint:"Availability drives intake.",ref:[5]},
+{id:33,q:"Shopping while hungry leads to chips. Fix?",opts:["Eat a snack & bring a list","Wander aisles hungry","Buy extra treats"],correct:0,hint:"Plan before you go.",ref:[5]},
+{id:34,q:"Why shop with a list?",opts:["Fewer impulse buys","It’s fun","You walk less"],correct:0,hint:"Pre-decide healthy picks.",ref:[5]},
+{id:35,q:"Which nutrient should you increase?",opts:["Fiber","Added sugar","Sodium"],correct:0,hint:"Fiber supports fullness.",ref:[8]},
+{id:36,q:"Reading nutrition labels helps healthier choices.",opts:["True","False"],correct:0,hint:"Know what’s inside.",ref:[5]},
+{id:37,q:"Which is a lean protein?",opts:["Skinless chicken","Bacon","Sausage"],correct:0,hint:"Lower fat, solid protein.",ref:[5]},
+{id:38,q:"Best drink for weight management?",opts:["Water","Soda","Juice"],correct:0,hint:"Liquid calories add up.",ref:[5]},
+{id:39,q:"Preparing meals at home helps you…",opts:["Control ingredients","Spend more by default","Eat mindlessly"],correct:0,hint:"You control portions.",ref:[4,5]},
+{id:40,q:"Eating out daily is the best way to control calories.",opts:["True","False"],correct:1,hint:"Restaurants add extras.",ref:[4,5]},
+{id:41,q:"Healthier cooking method:",opts:["Baking","Deep-frying","Double frying"],correct:0,hint:"Less oil = fewer calories.",ref:[5]},
+{id:42,q:"Late-night takeout habit. Healthier change?",opts:["Prep bulk meals & freeze","Skip all carbs","Only drink coffee"],correct:0,hint:"Make healthy default easy.",ref:[5]},
+{id:43,q:"Non-food reward after a goal?",opts:["New workout playlist","Cake","Milkshake"],correct:0,hint:"Celebrate without calories.",ref:[4,5]},
+{id:44,q:"Celebrating milestones can boost motivation.",opts:["True","False"],correct:0,hint:"Wins fuel effort.",ref:[4,5]},
+{id:45,q:"Feeling discouraged after a setback. Healthy response?",opts:["Reflect & adjust plan","Quit","Crash diet tomorrow"],correct:0,hint:"Progress isn’t linear.",ref:[4,5]},
+{id:46,q:"Why reassess goals regularly?",opts:["Needs change over time","It’s pointless","To add pressure only"],correct:0,hint:"Adapt to life.",ref:[1,2]},
+{id:47,q:"Who to consult before very-low-calorie diets?",opts:["Clinician/dietitian","A stranger online","No one"],correct:0,hint:"Safety first.",ref:[1,2,4]},
+{id:48,q:"Weight-loss supplements are safe and effective.",opts:["True","False"],correct:1,hint:"Often unproven, risky.",ref:[1,2]},
+{id:49,q:"When consider weight-loss meds?",opts:["If clinically indicated","Everyone should","Never"],correct:0,hint:"Discuss with clinician.",ref:[1,8]},
+{id:50,q:"Bariatric surgery is an option for…",opts:["Some with severe obesity","Everyone","No one"],correct:0,hint:"Specific criteria apply.",ref:[1,5]},
+{id:51,q:"SMART stands for…",opts:["Specific, Measurable, Achievable, Relevant, Time-bound","Simple, Magic, Awesome, Rapid, Trendy","Snack, Move, Avoid, Rest, Track"],correct:0,hint:"Project-style goals.",ref:[4,5]},
+{id:52,q:"Fad diets are usually best long-term.",opts:["True","False"],correct:1,hint:"Sustainability wins.",ref:[1,2,5]},
+{id:53,q:"Regained 5 lb after loss. Good step?",opts:["Review triggers & plan","Give up","Starve next day"],correct:0,hint:"Relapse planning.",ref:[3]},
+{id:54,q:"Why reflect on setbacks?",opts:["Learn & adjust","Punish yourself","Ignore them"],correct:0,hint:"Data → better plan.",ref:[4,5]},
+{id:55,q:"Healthier choice:",opts:["Take stairs","Elevator always","Moving walkway"],correct:0,hint:"NEAT adds up.",ref:[4,5]},
+{id:56,q:"Parking farther away can help you move more.",opts:["True","False"],correct:0,hint:"Sneak in steps.",ref:[4,5]},
+{id:57,q:"Sits 8 hours straight. What to change?",opts:["Break sitting every hour","Keep sitting","Drink more soda"],correct:0,hint:"Breaks matter.",ref:[4,5]},
+{id:58,q:"Drinking water before meals can help with…",opts:["Fullness","Hunger","Thirst only"],correct:0,hint:"Arrive less hungry.",ref:[5]},
+{id:59,q:"Benefit of a wearable tracker?",opts:["Feedback on activity","Automatically cooks","None"],correct:0,hint:"What gets measured…",ref:[4,5]},
+{id:60,q:"Digital health tools can support weight management.",opts:["True","False"],correct:0,hint:"Apps can aid habits.",ref:[6]},
+{id:61,q:"Way to monitor activity:",opts:["Step count","Guessing","Astrology"],correct:0,hint:"Objective beats guess.",ref:[5]},
+{id:62,q:"Only 3,000 steps today. Next step?",opts:["Plan a short evening walk","Give up for week","Eat extra to compensate"],correct:0,hint:"Small wins now.",ref:[5]},
+{id:63,q:"Which should you limit?",opts:["Processed meats","Vegetables","Whole grains"],correct:0,hint:"Linked to health risks.",ref:[5]},
+{id:64,q:"Herbs/spices can add flavor without many calories.",opts:["True","False"],correct:0,hint:"Boost taste, not kcal.",ref:[5]},
+{id:65,q:"Higher-calorie condiment:",opts:["Ketchup","Mustard","Salsa"],correct:0,hint:"Watch added sugar.",ref:[5]},
+{id:66,q:"Someone drinks alcohol daily. Healthier alternative?",opts:["Sparkling water with lime","Drink more","Shots instead"],correct:0,hint:"Cut liquid calories.",ref:[5]},
+{id:67,q:"Why focus on nutrient density?",opts:["More nutrients per calorie","More calories per bite","It’s a buzzword only"],correct:0,hint:"Quality over quantity.",ref:[5]},
+{id:68,q:"Eating with others can improve accountability.",opts:["True","False"],correct:0,hint:"Social support again.",ref:[3,6]},
+{id:69,q:"Self-efficacy means…",opts:["Belief you can do the behavior","A specific diet","Gym membership"],correct:0,hint:"Confidence to act.",ref:[3,6]},
+{id:70,q:"Trying meditation to reduce stress eating addresses…",opts:["Stress management","Protein intake","Sodium"],correct:0,hint:"Lower stress → fewer cravings.",ref:[4]},
+{id:71,q:"Benefit of adjusting your plan as needed?",opts:["Stay realistic & effective","Seems indecisive","Avoid all change"],correct:0,hint:"Adaptation helps.",ref:[1,2]},
+{id:72,q:"Long-term sustainable habits beat quick fixes.",opts:["True","False"],correct:0,hint:"Think lifestyle.",ref:[1,2,5]},
+{id:73,q:"Why avoid restrictive fad diets?",opts:["Hard to sustain & regain risk","They always work","They’re safest"],correct:0,hint:"Sustainability again.",ref:[1,2,5]},
+{id:74,q:"Hit a plateau. Healthy next step?",opts:["Review intake/activity/sleep","Crash diet","Quit"],correct:0,hint:"Adjust one lever.",ref:[4,5]},
+{id:75,q:"Adults should sleep…",opts:["7–9 hours/night","3–4 hours/night","11–12 hours/night"],correct:0,hint:"Recovery matters.",ref:[4]},
+{id:76,q:"Why review medications during weight loss?",opts:["Some affect weight","For fun","No reason"],correct:0,hint:"Ask clinician.",ref:[2,4]},
+{id:77,q:"Managing chronic conditions is unrelated to weight.",opts:["True","False"],correct:1,hint:"Whole health connects.",ref:[1,2]},
+{id:78,q:"Role of regular follow-up?",opts:["Accountability & guidance","None","Only weigh you"],correct:0,hint:"Stay supported.",ref:[1,2]},
+{id:79,q:"Healthier grain choice:",opts:["Brown rice","White bread","Pastry"],correct:0,hint:"Choose whole grains.",ref:[4,5]},
+{id:80,q:"Shopping while hungry increases impulse buys.",opts:["True","False"],correct:0,hint:"Eat first, then shop.",ref:[5]},
+{id:81,q:"Chips visible on counter. Better option?",opts:["Keep fruit visible, chips away","Buy more chips","Move chips to desk"],correct:0,hint:"Environment design.",ref:[5]},
+{id:82,q:"Why freeze leftovers?",opts:["Easy healthy meals later","Waste more food","Add calories"],correct:0,hint:"Make healthy the default.",ref:[5]},
+{id:83,q:"Positive self-talk can help you stay on track.",opts:["True","False"],correct:0,hint:"Mindset matters.",ref:[4,5]},
+{id:84,q:"Non-food milestone idea:",opts:["New water bottle","Cake slice","Sugary drink"],correct:0,hint:"Reward supports goal.",ref:[4,5]},
+{id:85,q:"“I’ll never succeed.” Healthier phrase?",opts:["“I can improve with practice”","“I’m doomed”","“Why bother”"],correct:0,hint:"Growth mindset.",ref:[4,5]},
+{id:86,q:"Why celebrate small wins?",opts:["Builds momentum","Wastes time","Increases cravings"],correct:0,hint:"Motivation fuel.",ref:[4,5]},
+{id:87,q:"Better for health:",opts:["Break up sitting with short walks","Sit long hours","Avoid moving"],correct:0,hint:"Movement snacks.",ref:[4,5]},
+{id:88,q:"Walking after meals can improve health.",opts:["True","False"],correct:0,hint:"Helps glucose & steps.",ref:[5]},
+{id:89,q:"Everyday habit to increase steps:",opts:["Park farther away","Use escalator always","Drive everywhere"],correct:0,hint:"NEAT again.",ref:[4,5]},
+{id:90,q:"Exercise feels boring. Strategy?",opts:["Try new enjoyable activities","Force same routine","Stop entirely"],correct:0,hint:"Enjoyment → adherence.",ref:[5]},
+{id:91,q:"Unproven weight-loss therapies are safe.",opts:["True","False"],correct:1,hint:"Be skeptical.",ref:[1,2]},
+{id:92,q:"Why rely on evidence-based resources?",opts:["Safer, more effective","Trendy","Cheaper always"],correct:0,hint:"Trust quality sources.",ref:[1,2,3]},
+{id:93,q:"Risk of weight-loss supplements:",opts:["Side effects & interactions","Guaranteed results","Zero risk"],correct:0,hint:"Discuss with clinician.",ref:[1,2]},
+{id:94,q:"Fad diet on social media. What do you do?",opts:["Check credible sources/ask clinician","Follow blindly","Buy all products"],correct:0,hint:"Verify first.",ref:[1,2,3]},
+{id:95,q:"Why review progress regularly?",opts:["Spot trends & adjust","For stress","No benefit"],correct:0,hint:"Course-correct often.",ref:[4,5]},
+{id:96,q:"Weight management is a one-time event.",opts:["True","False"],correct:1,hint:"It’s ongoing.",ref:[1,2]},
+{id:97,q:"Way to stay motivated long term:",opts:["Set new realistic goals","Rely on willpower only","Avoid tracking"],correct:0,hint:"Goals guide effort.",ref:[1,2]},
+{id:98,q:"Reached goal weight. Next step?",opts:["Plan maintenance habits & follow-ups","Stop all habits","Party daily"],correct:0,hint:"Maintain gains.",ref:[1,2]},
+{id:99,q:"Benefit of food diary after reaching goals:",opts:["Maintain awareness","No benefit","Adds calories"],correct:0,hint:"Keep insight.",ref:[4,5]},
+{id:100,q:"Why is regular follow-up key?",opts:["Support & accountability","No reason","Only for athletes"],correct:0,hint:"Care team matters.",ref:[1,2]}
+];
 
-    // --- Minimal image hue-rotation for hero banner each question ---
-    const hero = document.getElementById('hero');
-    function swapHero(){ hero.style.filter = `hue-rotate(${Math.floor(Math.random()*180)}deg)`; }
+/* ---------- state ---------- */
+let queue=[...BANK.keys()], currentIndex=0, answered=0, correct=0, streak=0, badges=[];
+const stateKey='wl_state_v1';
+function saveState(){localStorage.setItem(stateKey,JSON.stringify({queue,currentIndex,answered,correct,streak,badges}));}
+function loadState(){try{const s=JSON.parse(localStorage.getItem(stateKey)||'null');if(s&&Array.isArray(s.queue)){queue=s.queue;currentIndex=s.currentIndex||0;answered=s.answered||0;correct=s.correct||0;streak=s.streak||0;badges=s.badges||[]}}catch{}}
 
-    // --- Local Profile (name only) ---
-    const profileKey = 'wl_profile_v1';
-    const getProfile = ()=>{ try{ return JSON.parse(localStorage.getItem(profileKey)||'null'); }catch{ return null } };
-    const setProfile = (p)=> localStorage.setItem(profileKey, JSON.stringify(p));
+/* ---------- dom ---------- */
+const elQ=document.getElementById('question');
+const elOpts=document.getElementById('options');
+const elQIndex=document.getElementById('qIndex');
+const elRefs=document.getElementById('refs');
+const elHint=document.getElementById('hint');
+const elHintBtn=document.getElementById('hintBtn');
+const elSkip=document.getElementById('skipBtn');
+const elNext=document.getElementById('nextBtn');
+const elReset=document.getElementById('resetBtn');
+const elKpiCorrect=document.getElementById('kpiCorrect');
+const elKpiTotal=document.getElementById('kpiTotal');
+const elStreak=document.getElementById('streakPill');
+const elAcc=document.getElementById('accuracyPill');
+const elBadgePill=document.getElementById('badgePill');
+const elBadges=document.getElementById('badges');
+const elNewBadge=document.getElementById('newBadge');
+const elBadgeName=document.getElementById('badgeName');
+const progressBar=document.getElementById('progressBar');
 
-    // --- Game state (adaptive queue) ---
-    let queue = [...BANK.map((_, i)=>i)];
-    let currentIndex = 0; let answered = 0, correct = 0, streak = 0; let badges = [];
-    const stateKey = 'wl_flashcards_state_v2';
+/* ---------- helpers ---------- */
+function award(name){if(!badges.includes(name)){badges.push(name);renderBadges();elBadgeName.textContent=name;elNewBadge.classList.add('show');setTimeout(()=>elNewBadge.classList.remove('show'),1500);saveState();}}
+function renderBadges(){elBadges.innerHTML='';badges.forEach(b=>{const s=document.createElement('span');s.className='tag';s.textContent='🏅 '+b;elBadges.appendChild(s);});elBadgePill.textContent=`🏅 Badges: ${badges.length}`;}
+function updateKpis(){elKpiCorrect.textContent=correct;elKpiTotal.textContent=answered;const acc=answered?Math.round(correct/answered*100):0;elAcc.textContent=`✅ Accuracy: ${acc}%`;elStreak.textContent=`🔥 Streak: ${streak}`;progressBar.style.width=`${(currentIndex+1)/BANK.length*100}%`;}
+function render(){
+  drawHero();
+  const idx=queue[currentIndex]; const item=BANK[idx];
+  elQ.textContent=item.q; elQIndex.textContent=`Question ${idx+1} / ${BANK.length}`; elRefs.textContent='Refs: '+(item.ref?item.ref.join(', '):'—'); elHint.textContent=item.hint||''; elHint.classList.remove('show');
+  elNext.disabled=true; elOpts.innerHTML='';
+  item.opts.forEach((opt,i)=>{const b=document.createElement('button');b.className='btn';b.textContent=opt;b.onclick=()=>onAnswer(i);elOpts.appendChild(b);});
+  updateKpis();
+}
+function onAnswer(choice){
+  const idx=queue[currentIndex]; const item=BANK[idx]; const buttons=[...elOpts.children]; buttons.forEach(b=>b.disabled=true); answered++;
+  if(choice===item.correct){correct++;streak++;buttons[choice].classList.add('correct');beep(1040,'sine',.07,.06); if(correct===1)award('First Win'); if(streak===3)award('On a Roll (x3)'); if(streak===5)award('Hot Streak (x5)'); if(correct>=25&&!badges.includes('25 Correct'))award('25 Correct'); if(correct>=50&&!badges.includes('50 Correct'))award('50 Correct'); if(correct>=100&&!badges.includes('Century Club'))award('Century Club');}
+  else {streak=0;buttons[choice].classList.add('wrong');buttons[item.correct]?.classList.add('correct');beep(220,'square',.09,.06);queue.splice(Math.min(queue.length,currentIndex+5),0,idx);}
+  elNext.disabled=false; updateKpis(); saveState();
+}
+function next(){if(currentIndex<BANK.length-1){currentIndex++;} render(); saveState();}
 
-    function saveState(){ const s = {queue,currentIndex,answered,correct,streak,badges}; localStorage.setItem(stateKey, JSON.stringify(s)); }
-    function loadState(){ try{ const raw = localStorage.getItem(stateKey); if(!raw) return; const s=JSON.parse(raw); if(Array.isArray(s.queue)){ queue=s.queue; currentIndex=s.currentIndex||0; answered=s.answered||0; correct=s.correct||0; streak=s.streak||0; badges=s.badges||[]; } }catch{} }
+/* ---------- controls ---------- */
+elHintBtn.onclick=()=>elHint.classList.add('show');
+elSkip.onclick=()=>{streak=0;next();};
+elNext.onclick=next;
+elReset.onclick=()=>{if(confirm('Erase local progress?')){localStorage.removeItem(stateKey);queue=[...BANK.keys()];currentIndex=0;answered=0;correct=0;streak=0;badges=[];renderBadges();render();}};
 
-    // --- UI bindings ---
-    const elQ = document.getElementById('question');
-    const elOpts = document.getElementById('options');
-    const elRefs = document.getElementById('refs');
-    const elQIndex = document.getElementById('qIndex');
-    const elHint = document.getElementById('hint');
-    const elHintBtn = document.getElementById('hintBtn');
-    const elSkip = document.getElementById('skipBtn');
-    const elNext = document.getElementById('nextBtn');
-    const elReset = document.getElementById('resetBtn');
-    const elToast = document.getElementById('toast');
-    const elProgress = document.getElementById('progressBar');
-    const elKpiCorrect = document.getElementById('kpiCorrect');
-    const elKpiTotal = document.getElementById('kpiTotal');
-    const elStreak = document.getElementById('streakPill');
-    const elAcc = document.getElementById('accuracyPill');
-    const elBadgePill = document.getElementById('badgePill');
-    const elBadges = document.getElementById('badges');
-    const elSesBadge = document.getElementById('sessionBadge');
-    const elBadgeName = document.getElementById('badgeName');
-    const settingsBtn = document.getElementById('settingsBtn');
+/* ---------- profile (name only) ---------- */
+const profileModal=document.getElementById('profileModal');
+const nameInput=document.getElementById('nameInput');
+const saveProfile=document.getElementById('saveProfile');
+const userPill=document.getElementById('userPill');
+function setProfile(name){localStorage.setItem('wl_name',name);}
+function getProfile(){return localStorage.getItem('wl_name')||'';}
+saveProfile.onclick=()=>{const n=nameInput.value.trim()||'Guest';setProfile(n);userPill.textContent='👤 '+n;profileModal.hidden=true;render();};
 
-    function toast(msg){ elToast.textContent = msg; elToast.classList.add('show'); setTimeout(()=> elToast.classList.remove('show'), 1300); }
-    function award(name){ if(!badges.includes(name)){ badges.push(name); elBadgeName.textContent = name; elSesBadge.hidden=false; setTimeout(()=>{elSesBadge.hidden=true;}, 1800); renderBadges(); saveState(); } }
-    function renderBadges(){ elBadges.innerHTML = ''; badges.forEach(b => { const span = document.createElement('span'); span.className = 'tag'; span.textContent = '🏅 ' + b; elBadges.appendChild(span); }); elBadgePill.textContent = `🏅 Badges: ${badges.length}`; }
-    function updateKpis(){ elKpiCorrect.textContent = correct; elKpiTotal.textContent = answered; const acc = answered ? Math.round((correct/answered)*100) : 0; elAcc.textContent = `✅ Accuracy: ${acc}%`; elStreak.textContent = `🔥 Streak: ${streak}`; const pct = Math.round(((queue.length - currentIndex) / queue.length) * 100); elProgress.style.width = `${100 - pct}%`; }
-
-    function render(){
-      swapHero();
-      const idx = queue[currentIndex]; const item = BANK[idx];
-      elQ.textContent = item.question; elRefs.textContent = 'Refs: ' + (item.reference?.join(', ') || '—'); elQIndex.textContent = `Question ${idx+1} / ${BANK.length}`; elHint.textContent = item.hint || ''; elHint.classList.remove('show'); elNext.disabled = true; elOpts.innerHTML = '';
-      item.options.forEach((opt, i)=>{ const b = document.createElement('button'); b.className = 'btn'; b.textContent = opt; b.setAttribute('aria-label', `Option ${i+1}: ${opt}`); b.addEventListener('click', ()=> onAnswer(i)); elOpts.appendChild(b); });
-      updateKpis();
-    }
-
-    function onAnswer(choice){
-      const idx = queue[currentIndex]; const item = BANK[idx]; const buttons = [...elOpts.querySelectorAll('button')];
-      buttons.forEach(b => b.disabled = true); answered++;
-      if(choice === item.correctIndex){ correct++; streak++; buttons[choice].classList.add('correct'); beep(1040,'sine',0.07,0.06); toast('✅ Correct!'); if(correct===1) award('First Win'); if(streak===3) award('On a Roll (x3)'); if(streak===5) award('Hot Streak (x5)'); if(correct>=25 && !badges.includes('25 Correct')) award('25 Correct'); if(correct>=50 && !badges.includes('50 Correct')) award('50 Correct'); if(correct>=100 && !badges.includes('Century Club')) award('Century Club'); elNext.disabled = false; }
-      else { streak = 0; buttons[choice].classList.add('wrong'); const right = item.correctIndex; buttons[right]?.classList.add('correct'); beep(200,'square',0.08,0.05); toast('❌ Try again soon'); const reinsertAt = Math.min(queue.length, currentIndex + 5); queue.splice(reinsertAt, 0, idx); elNext.disabled = false; }
-      saveState(); updateKpis();
-    }
-
-    function next(){ if(currentIndex < queue.length-1){ currentIndex++; } else { currentIndex = Math.min(currentIndex, queue.length-1); } saveState(); render(); }
-
-    document.getElementById('hintBtn').addEventListener('click', ()=>{ elHint.classList.add('show'); });
-    document.getElementById('skipBtn').addEventListener('click', ()=>{ streak = 0; next();});
-    document.getElementById('nextBtn').addEventListener('click', next);
-    document.getElementById('resetBtn').addEventListener('click', ()=>{ if(confirm('Erase local progress and restart?')){ localStorage.removeItem(stateKey); answered=0; correct=0; streak=0; badges=[]; queue=[...BANK.map((_, i)=>i)]; currentIndex=0; renderBadges(); updateKpis(); render(); } });
-
-    // --- Profile (name only) ---
-    const profileModal = document.getElementById('profileModal');
-    const nameInput = document.getElementById('name');
-    const saveProfileBtn = document.getElementById('saveProfile');
-    const userPill = document.getElementById('userPill');
-
-    function openProfile(){ profileModal.hidden = false; nameInput.value = (getProfile()?.name || ''); }
-    document.getElementById('settingsBtn').addEventListener('click', openProfile);
-
-    saveProfileBtn.addEventListener('click', ()=>{
-      const name = nameInput.value.trim() || 'Guest';
-      setProfile({name});
-      userPill.textContent = '👤 ' + name;
-      profileModal.hidden = true;
-      // ensure focus returns to main app for keyboard users
-      document.getElementById('hintBtn').focus();
-    }); userPill.textContent = '👤 ' + name; profileModal.hidden = true; });
-
-    // --- Init ---
-    (function init(){
-      const p = getProfile();
-      if(!p){ profileModal.hidden = false; }
-      else { userPill.textContent = '👤 ' + (p.name || 'Guest'); }
-      loadState();
-      renderBadges();
-      render();
-    })();
-  </script>
+/* ---------- init ---------- */
+(function init(){
+  const n=getProfile();
+  if(!n){profileModal.hidden=false;} else {userPill.textContent='👤 '+n;}
+  loadState(); renderBadges(); render();
+})();
+</script>
 </body>
 </html>
