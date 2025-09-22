@@ -5,410 +5,127 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Weight‑Loss Tips — Adaptive Flashcards</title>
   <style>
-    :root {
-      --bg: #0b1220;
-      --panel: #121b2e;
-      --accent: #6ee7ff;
-      --accent2: #a7f3d0;
-      --text: #e6edf7;
-      --muted: #9fb0c7;
-      --danger: #ff6b6b;
-      --success: #34d399;
-      --warning: #fbbf24;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 800px at 10% -10%, #1a2440 0%, var(--bg) 40%), linear-gradient(#0a0f1e, #0b1220);
-      color: var(--text);
-      min-height:100svh; display:flex; align-items:center; justify-content:center; padding:24px;
-    }
-    .app{width: min(1080px, 100%);} 
-    .card{background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; padding: 20px; box-shadow: var(--shadow);} 
-    header{display:flex; align-items:center; gap:16px; margin-bottom:16px; flex-wrap:wrap}
-    .brand{font-weight:700; letter-spacing:.2px}
-    .pill{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); padding:6px 10px; border-radius:999px; font-size:12px; color:var(--muted);} 
-    .grid{display:grid; grid-template-columns: 1fr; gap:14px}
-    @media (min-width:860px){.grid{grid-template-columns: 2fr 1fr}}
-    .panel{background: var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:16px}
-    h1{font-size: clamp(18px, 2.2vw, 24px); margin:0 0 6px}
-    .q-meta{display:flex; gap:8px; flex-wrap:wrap; color:var(--muted); font-size:13px}
-    .question{font-size: clamp(18px, 2.2vw, 22px); line-height:1.35; margin: 6px 0 8px}
-    .options{display:grid; grid-template-columns: 1fr; gap:10px; margin-top:10px}
-    .btn{width:100%; text-align:left; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:#0f1628; color:var(--text); cursor:pointer; transition: transform .03s ease, background .2s; box-shadow: inset 0 0 0 0 rgba(255,255,255,.05);} 
-    .btn:hover{background:#121c33}
-    .btn:active{transform: translateY(1px)}
-    .btn.correct{border-color: rgba(52,211,153,.7); background: linear-gradient(0deg, rgba(52,211,153,.12), transparent)}
-    .btn.wrong{border-color: rgba(255,107,107,.6); background: linear-gradient(0deg, rgba(255,107,107,.12), transparent)}
-    .controls{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
-    .control{padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0f172a; color:var(--text); cursor:pointer}
-    .control.secondary{background:#0b1325}
-    .hint{color:var(--accent2); font-size:14px; margin-top:6px; display:none}
+    body{margin:0;font-family:system-ui,Arial;background:#0b1220;color:#e6edf7;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+    .app{max-width:960px;width:100%}
+    .card{background:#121b2e;border-radius:18px;padding:20px}
+    header{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+    .pill{background:#1e293b;padding:6px 12px;border-radius:999px;font-size:13px}
+    .panel{background:#0f172a;border-radius:14px;padding:16px;margin-top:12px}
+    .question{font-size:20px;font-weight:600;margin:12px 0}
+    .options{display:grid;gap:10px}
+    .btn{padding:12px;border-radius:12px;border:1px solid #2c3a57;background:#0b1325;color:#e6edf7;text-align:left;cursor:pointer}
+    .btn.correct{border-color:#34d399;background:#064e3b}
+    .btn.wrong{border-color:#f87171;background:#7f1d1d}
+    .controls{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+    .control{padding:10px 14px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#e6edf7;cursor:pointer}
+    .hint{color:#a7f3d0;margin-top:8px;display:none}
     .hint.show{display:block}
-    .stats{display:grid; grid-template-columns: repeat(2,1fr); gap:10px}
-    .kpi{background:#0f172a; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px}
-    .kpi .big{font-size:22px; font-weight:700}
-    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
-    .tag{font-size:12px; padding:6px 8px; border-radius:999px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); color:var(--muted)}
-    .badge{display:flex; align-items:center; gap:8px; background:linear-gradient(180deg, rgba(167,243,208,.15), rgba(167,243,208,.05)); border:1px solid rgba(167,243,208,.25); color:#d1fae5; padding:10px 12px; border-radius:12px}
-    .toast{position: fixed; inset:auto 16px 16px auto; background:#0b1325; border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:10px 12px; color:var(--text); box-shadow: var(--shadow); display:none}
-    .toast.show{display:block}
-    .progress{height:8px; background:rgba(255,255,255,.1); border-radius:999px; overflow:hidden}
-    .progress > div{height:100%; width:0%; background: linear-gradient(90deg, var(--accent), #b3e1ff);} 
-    .heroImg{width:100%; height:160px; border-radius:12px; background: linear-gradient(135deg, #1e293b, #0b1220); border:1px solid rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; overflow:hidden}
-    .heroImg svg{width:100%; height:100%; object-fit:cover}
-
-    /* Modal */
-    .modal{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.6); backdrop-filter: blur(3px);} 
-    .sheet{width:min(520px, 92%); background:var(--panel); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:18px; box-shadow: var(--shadow)}
-    .row{display:flex; gap:10px; align-items:center; margin:8px 0}
-    label{font-size:14px; color:var(--muted)}
-    input[type="text"], input[type="password"]{width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:#0f172a; color:var(--text)}
-    .switch{display:flex; align-items:center; gap:8px}
-    .sr{position:absolute; left:-9999px}
-    .tech-list li{margin:6px 0}
+    .stats{display:flex;gap:12px;margin-top:12px}
+    .kpi{flex:1;background:#1e293b;border-radius:10px;padding:10px;text-align:center}
+    .kpi .big{font-size:22px;font-weight:700}
+    .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:#1e293b;margin:2px}
   </style>
 </head>
 <body>
   <div class="app">
     <div class="card">
       <header>
-        <div class="brand">💪 Patient‑Friendly Weight‑Loss Flashcards</div>
         <span class="pill" id="userPill">👤 Guest</span>
         <span class="pill" id="streakPill">🔥 Streak: 0</span>
         <span class="pill" id="accuracyPill">✅ Accuracy: 0%</span>
         <span class="pill" id="badgePill">🏅 Badges: 0</span>
-        <button class="pill" id="settingsBtn" title="Profile & Lock">⚙️ Settings</button>
       </header>
-      <div class="grid">
-        <!-- Left: Flashcard panel -->
-        <div class="panel" aria-live="polite">
-          <div class="heroImg" aria-hidden="true" id="hero">
-            <!-- Inline SVG illustration (nutrition/activity theme) -->
-            <svg viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Healthy lifestyle illustration">
-              <defs>
-                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ee7ff"/><stop offset="1" stop-color="#a7f3d0"/></linearGradient>
-              </defs>
-              <rect width="600" height="180" fill="#0e1629"/>
-              <circle cx="90" cy="90" r="55" fill="url(#g1)" opacity=".25"/>
-              <rect x="60" y="65" width="60" height="50" rx="10" fill="url(#g1)" opacity=".5"/>
-              <rect x="200" y="50" width="90" height="80" rx="12" fill="#1f2a44" stroke="#6ee7ff" opacity=".8"/>
-              <rect x="215" y="65" width="60" height="10" rx="5" fill="#6ee7ff"/>
-              <rect x="215" y="85" width="60" height="10" rx="5" fill="#a7f3d0"/>
-              <rect x="215" y="105" width="60" height="10" rx="5" fill="#6ee7ff"/>
-              <g transform="translate(350,40)">
-                <path d="M0 60 C20 30, 40 90, 60 60" stroke="#a7f3d0" stroke-width="6" fill="none"/>
-                <circle cx="0" cy="60" r="5" fill="#a7f3d0"/>
-                <circle cx="60" cy="60" r="5" fill="#6ee7ff"/>
-              </g>
-              <g transform="translate(470,40)">
-                <rect x="0" y="0" width="100" height="80" rx="12" fill="#1f2a44" stroke="#a7f3d0"/>
-                <rect x="10" y="50" width="80" height="20" rx="10" fill="#6ee7ff"/>
-              </g>
-            </svg>
-          </div>
-          <div class="q-meta">
-            <span id="qIndex">Question 1 / 100</span>
-            <span>•</span>
-            <span id="refs">Refs: –</span>
-          </div>
-          <h1 class="question" id="question">Loading…</h1>
-          <div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
-          <div class="options" id="options"></div>
-          <div id="hint" class="hint">Hint will appear here.</div>
-          <div class="controls">
-            <button class="control" id="hintBtn">💡 Hint</button>
-            <button class="control secondary" id="skipBtn">⏭️ Skip</button>
-            <button class="control" id="nextBtn" disabled>Next ▶</button>
-            <button class="control secondary" id="resetBtn" title="Erase local progress">🗑️ Reset</button>
-          </div>
-        </div>
-        <!-- Right: Stats/Badges/Techniques -->
-        <div class="panel">
-          <h2 style="margin:0 0 8px; font-size:18px">Your Progress</h2>
-          <div class="stats">
-            <div class="kpi"><div class="big" id="kpiCorrect">0</div><div>Correct</div></div>
-            <div class="kpi"><div class="big" id="kpiTotal">0</div><div>Answered</div></div>
-          </div>
-          <div class="tags" id="badges" style="margin-top:10px"></div>
-          <div style="margin-top:12px" class="badge" id="sessionBadge" hidden>
-            <span>🎉 New Badge:</span> <strong id="badgeName">Starter</strong>
-          </div>
-          <h3 style="margin:16px 0 6px; font-size:16px">Techniques Used</h3>
-          <ul class="tech-list" style="margin:0 0 6px 18px; color:var(--muted); line-height:1.55">
-            <li><strong>Spaced practice</strong>: missed cards reappear after a short gap.</li>
-            <li><strong>Adaptive difficulty</strong>: streaks promote; errors resurface soon.</li>
-            <li><strong>Hints on demand</strong>: gentle scaffolding before answers.</li>
-            <li><strong>Environment design</strong>: label reading, smaller plates, kitchen‑serve.</li>
-            <li><strong>Positive feedback</strong>: badges, streaks, small wins.</li>
-            <li><strong>Micro‑sessions</strong>: quick 5–10 card bursts to reduce friction.</li>
-            <li><strong>Local privacy</strong>: optional passcode‑locked, browser‑only data.</li>
-          </ul>
+      <div class="panel">
+        <div id="qIndex">Question 1 / 100</div>
+        <div class="question" id="question">Loading…</div>
+        <div class="options" id="options"></div>
+        <div id="hint" class="hint">Hint</div>
+        <div class="controls">
+          <button class="control" id="hintBtn">💡 Hint</button>
+          <button class="control" id="skipBtn">⏭️ Skip</button>
+          <button class="control" id="nextBtn" disabled>Next ▶</button>
+          <button class="control" id="resetBtn">🗑️ Reset</button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Profile / Passcode modal (first run & settings) -->
-  <div class="modal" id="profileModal" hidden>
-    <div class="sheet">
-      <h2 style="margin:0 0 8px; font-size:20px">Welcome</h2>
-      <p style="margin:0 0 10px; color:var(--muted)">Set your name, and optionally protect your progress with a passcode stored locally on this device.</p>
-      <div class="row"><label for="name">Display name</label></div>
-      <div class="row"><input id="name" type="text" placeholder="e.g., Nihit" autocomplete="name" /></div>
-      <div class="row switch">
-        <input id="usePass" type="checkbox" />
-        <label for="usePass">Enable passcode lock</label>
-      </div>
-      <div id="passRows" hidden>
-        <div class="row"><input id="pass1" type="password" placeholder="Create passcode" autocomplete="new-password" /></div>
-        <div class="row"><input id="pass2" type="password" placeholder="Confirm passcode" autocomplete="new-password" /></div>
-      </div>
-      <div class="row" style="justify-content:flex-end; gap:8px">
-        <button class="control secondary" id="cancelProfile">Cancel</button>
-        <button class="control" id="saveProfile">Save</button>
-      </div>
-      <p style="margin:8px 0 0; color:var(--muted); font-size:12px">Note: This protects against casual access on this device only. If you forget the passcode, data can be erased but not recovered.</p>
-    </div>
-  </div>
-
-  <!-- Unlock modal if passcode enabled -->
-  <div class="modal" id="unlockModal" hidden>
-    <div class="sheet">
-      <h2 style="margin:0 0 8px; font-size:20px">Enter Passcode</h2>
-      <p style="margin:0 0 10px; color:var(--muted)" id="unlockUser">Profile</p>
-      <div class="row"><input id="unlockPass" type="password" placeholder="Passcode" autocomplete="current-password" /></div>
-      <div class="row" style="justify-content:flex-end; gap:8px">
-        <button class="control secondary" id="unlockErase">Erase data</button>
-        <button class="control" id="unlockGo">Unlock</button>
+      <div class="panel">
+        <h3>Your Progress</h3>
+        <div class="stats">
+          <div class="kpi"><div class="big" id="kpiCorrect">0</div><div>Correct</div></div>
+          <div class="kpi"><div class="big" id="kpiTotal">0</div><div>Answered</div></div>
+        </div>
+        <div id="badges"></div>
       </div>
     </div>
   </div>
 
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+const BANK=[
+  {question:"Setting a goal of losing 20 pounds in two weeks is realistic.",options:["True","False"],correctIndex:1,hint:"Healthy weight loss is 1–2 lbs/week."},
+  {question:"What’s a healthier weight loss target?",options:["1–2 pounds per week","5–10 pounds per week","As fast as possible"],correctIndex:0,hint:"Slow and steady is safer."}
+  // ... include all 100 here ...
+];
 
-  <script>
-    // --- Tiny sound feedback ---
-    const beep = (freq=880, type='sine', dur=0.08, gain=0.05) => {
-      try{ const ctx = new (window.AudioContext||window.webkitAudioContext)();
-        const o = ctx.createOscillator(); const g = ctx.createGain();
-        o.type = type; o.frequency.value = freq; g.gain.value = gain; o.connect(g); g.connect(ctx.destination);
-        o.start(); setTimeout(()=>{o.stop(); ctx.close();}, dur*1000);
-      }catch(e){}
-    };
+let queue=[...BANK.keys()],currentIndex=0,answered=0,correct=0,streak=0,badges=[];
 
-    // --- Question bank (shortened hints, refs included) ---
-    // (Same 100 as before; added optional img field if needed in future)
-    const BANK = [/* (same 100 items from previous version) */];
+const elQ=document.getElementById('question');
+const elOpts=document.getElementById('options');
+const elQIndex=document.getElementById('qIndex');
+const elHint=document.getElementById('hint');
+const elHintBtn=document.getElementById('hintBtn');
+const elSkip=document.getElementById('skipBtn');
+const elNext=document.getElementById('nextBtn');
+const elReset=document.getElementById('resetBtn');
+const elKpiCorrect=document.getElementById('kpiCorrect');
+const elKpiTotal=document.getElementById('kpiTotal');
+const elStreak=document.getElementById('streakPill');
+const elAcc=document.getElementById('accuracyPill');
+const elBadgePill=document.getElementById('badgePill');
+const elBadges=document.getElementById('badges');
 
-    // For brevity here, we programmatically load the prior BANK at runtime if available in history.
-    // If you're pasting this as a single file, replace the placeholder above with the full array from the previous version.
+function render(){
+  const idx=queue[currentIndex];
+  const item=BANK[idx];
+  elQ.textContent=item.question;
+  elQIndex.textContent=`Question ${idx+1} / ${BANK.length}`;
+  elHint.textContent=item.hint;elHint.classList.remove('show');
+  elNext.disabled=true;elOpts.innerHTML='';
+  item.options.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='btn'; b.textContent=opt;
+    b.onclick=()=>onAnswer(i);
+    elOpts.appendChild(b);
+  });
+  updateKpis();
+}
 
-    // --- Minimal image rotation for hero banner per topic (randomized) ---
-    const hero = document.getElementById('hero');
-    function swapHero(){
-      // simple palette shift via filter
-      hero.style.filter = `hue-rotate(${Math.floor(Math.random()*180)}deg)`;
-    }
+function onAnswer(choice){
+  const idx=queue[currentIndex];
+  const item=BANK[idx];
+  const buttons=[...elOpts.children];
+  buttons.forEach(b=>b.disabled=true);
+  answered++;
+  if(choice===item.correctIndex){correct++;streak++;buttons[choice].classList.add('correct');}
+  else{streak=0;buttons[choice].classList.add('wrong');buttons[item.correctIndex]?.classList.add('correct');queue.splice(currentIndex+5,0,idx);}
+  elNext.disabled=false;updateKpis();
+}
 
-    // --- Local Profile & Optional Passcode Encryption ---
-    const profileKey = 'wl_profile_v1';
-    const stateKeyPlain = 'wl_flashcards_state_v1';
-    const stateKeyEnc = 'wl_flashcards_state_enc_v1';
+function next(){if(currentIndex<queue.length-1){currentIndex++;}render();}
 
-    const $ = sel => document.querySelector(sel);
-    const profileModal = $('#profileModal');
-    const unlockModal = $('#unlockModal');
-    const nameInput = $('#name');
-    const usePassCb = $('#usePass');
-    const passRows = $('#passRows');
-    const pass1 = $('#pass1');
-    const pass2 = $('#pass2');
-    const saveProfileBtn = $('#saveProfile');
-    const cancelProfileBtn = $('#cancelProfile');
-    const unlockUser = $('#unlockUser');
-    const unlockPass = $('#unlockPass');
-    const unlockGo = $('#unlockGo');
-    const unlockErase = $('#unlockErase');
-    const userPill = $('#userPill');
-    const settingsBtn = $('#settingsBtn');
+function updateKpis(){
+  elKpiCorrect.textContent=correct;
+  elKpiTotal.textContent=answered;
+  const acc=answered?Math.round((correct/answered)*100):0;
+  elAcc.textContent=`✅ Accuracy: ${acc}%`;
+  elStreak.textContent=`🔥 Streak: ${streak}`;
+  elBadgePill.textContent=`🏅 Badges: ${badges.length}`;
+}
 
-    usePassCb.addEventListener('change', ()=>{ passRows.hidden = !usePassCb.checked; });
+elHintBtn.onclick=()=>{elHint.classList.add('show');};
+elSkip.onclick=()=>{streak=0;next();};
+elNext.onclick=next;
+elReset.onclick=()=>{if(confirm('Erase progress?')){queue=[...BANK.keys()];currentIndex=0;answered=0;correct=0;streak=0;badges=[];render();}};
 
-    function getProfile(){
-      try{ return JSON.parse(localStorage.getItem(profileKey)||'null') }catch(e){ return null }
-    }
-    function setProfile(p){ localStorage.setItem(profileKey, JSON.stringify(p)); }
-
-    // Web Crypto helpers
-    const enc = new TextEncoder();
-    const dec = new TextDecoder();
-    const toB64 = b => btoa(String.fromCharCode(...new Uint8Array(b)));
-    const fromB64 = s => Uint8Array.from(atob(s), c=>c.charCodeAt(0));
-
-    async function deriveKey(password, saltB64){
-      const salt = saltB64 ? fromB64(saltB64) : crypto.getRandomValues(new Uint8Array(16));
-      const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), {name:'PBKDF2'}, false, ['deriveKey']);
-      const key = await crypto.subtle.deriveKey({name:'PBKDF2', salt, iterations: 120000, hash:'SHA-256'}, keyMaterial, {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']);
-      return {key, saltB64: saltB64 || toB64(salt)};
-    }
-
-    async function encryptJson(obj, password){
-      const {key, saltB64} = await deriveKey(password);
-      const iv = crypto.getRandomValues(new Uint8Array(12));
-      const data = enc.encode(JSON.stringify(obj));
-      const buf = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, data);
-      return {saltB64, ivB64: toB64(iv), dataB64: toB64(buf)};
-    }
-
-    async function decryptJson(payload, password){
-      const {key} = await deriveKey(password, payload.saltB64);
-      const iv = fromB64(payload.ivB64);
-      const data = await crypto.subtle.decrypt({name:'AES-GCM', iv}, key, fromB64(payload.dataB64));
-      return JSON.parse(dec.decode(data));
-    }
-
-    // --- Game state (adaptive queue) ---
-    let queue = []; let currentIndex = 0; let answered = 0, correct = 0, streak = 0; let badges = [];
-
-    function defaultState(){
-      return { queue: [...BANK.map((_, i)=>i)], currentIndex:0, answered:0, correct:0, streak:0, badges:[], name: (getProfile()?.name||'Guest') };
-    }
-
-    function applyState(s){
-      queue = s.queue; currentIndex=s.currentIndex; answered=s.answered; correct=s.correct; streak=s.streak; badges=s.badges||[];
-    }
-
-    async function loadState(){
-      const profile = getProfile();
-      if(profile?.usePass){
-        // encrypted path
-        const raw = localStorage.getItem(stateKeyEnc);
-        if(!raw){ applyState(defaultState()); return; }
-        showUnlock(profile);
-      } else {
-        // plaintext path
-        const raw = localStorage.getItem(stateKeyPlain);
-        if(!raw){ applyState(defaultState()); return; }
-        try{ const s = JSON.parse(raw); applyState(s);}catch{ applyState(defaultState()); }
-      }
-    }
-
-    async function saveState(){
-      const s = {queue, currentIndex, answered, correct, streak, badges};
-      const profile = getProfile();
-      if(profile?.usePass){
-        const pass = sessionStorage.getItem('wl_session_pass');
-        if(!pass){ return; }
-        try{ const payload = await encryptJson(s, pass); localStorage.setItem(stateKeyEnc, JSON.stringify(payload)); }catch(e){}
-      } else {
-        localStorage.setItem(stateKeyPlain, JSON.stringify(s));
-      }
-    }
-
-    function wipeAll(){
-      localStorage.removeItem(stateKeyPlain);
-      localStorage.removeItem(stateKeyEnc);
-    }
-
-    // --- UI bindings (same as before) ---
-    const elQ = document.getElementById('question');
-    const elOpts = document.getElementById('options');
-    const elRefs = document.getElementById('refs');
-    const elQIndex = document.getElementById('qIndex');
-    const elHint = document.getElementById('hint');
-    const elHintBtn = document.getElementById('hintBtn');
-    const elSkip = document.getElementById('skipBtn');
-    const elNext = document.getElementById('nextBtn');
-    const elReset = document.getElementById('resetBtn');
-    const elToast = document.getElementById('toast');
-    const elProgress = document.getElementById('progressBar');
-    const elKpiCorrect = document.getElementById('kpiCorrect');
-    const elKpiTotal = document.getElementById('kpiTotal');
-    const elStreak = document.getElementById('streakPill');
-    const elAcc = document.getElementById('accuracyPill');
-    const elBadgePill = document.getElementById('badgePill');
-    const elBadges = document.getElementById('badges');
-    const elSesBadge = document.getElementById('sessionBadge');
-    const elBadgeName = document.getElementById('badgeName');
-
-    function toast(msg){ elToast.textContent = msg; elToast.classList.add('show'); setTimeout(()=> elToast.classList.remove('show'), 1300); }
-    function award(name){ if(!badges.includes(name)){ badges.push(name); elBadgeName.textContent = name; elSesBadge.hidden=false; setTimeout(()=>{elSesBadge.hidden=true;}, 1800); renderBadges(); saveState(); } }
-    function renderBadges(){ elBadges.innerHTML = ''; badges.forEach(b => { const span = document.createElement('span'); span.className = 'tag'; span.textContent = '🏅 ' + b; elBadges.appendChild(span); }); elBadgePill.textContent = `🏅 Badges: ${badges.length}`; }
-    function updateKpis(){ elKpiCorrect.textContent = correct; elKpiTotal.textContent = answered; const acc = answered ? Math.round((correct/answered)*100) : 0; elAcc.textContent = `✅ Accuracy: ${acc}%`; elStreak.textContent = `🔥 Streak: ${streak}`; const pct = Math.round(((queue.length - currentIndex) / queue.length) * 100); elProgress.style.width = `${100 - pct}%`; }
-
-    function render(){
-      swapHero();
-      const idx = queue[currentIndex]; const item = BANK[idx];
-      elQ.textContent = item.question; elRefs.textContent = 'Refs: ' + (item.reference?.join(', ') || '—'); elQIndex.textContent = `Question ${idx+1} / ${BANK.length}`; elHint.textContent = item.hint || ''; elHint.classList.remove('show'); elNext.disabled = true; elOpts.innerHTML = '';
-      item.options.forEach((opt, i)=>{ const b = document.createElement('button'); b.className = 'btn'; b.textContent = opt; b.setAttribute('aria-label', `Option ${i+1}: ${opt}`); b.addEventListener('click', ()=> onAnswer(i)); elOpts.appendChild(b); });
-      updateKpis();
-    }
-
-    function onAnswer(choice){
-      const idx = queue[currentIndex]; const item = BANK[idx]; const buttons = [...elOpts.querySelectorAll('button')];
-      buttons.forEach(b => b.disabled = true); answered++;
-      if(choice === item.correctIndex){ correct++; streak++; buttons[choice].classList.add('correct'); beep(1040,'sine',0.07,0.06); toast('✅ Correct!'); if(correct===1) award('First Win'); if(streak===3) award('On a Roll (x3)'); if(streak===5) award('Hot Streak (x5)'); if(correct>=25 && !badges.includes('25 Correct')) award('25 Correct'); if(correct>=50 && !badges.includes('50 Correct')) award('50 Correct'); if(correct>=100 && !badges.includes('Century Club')) award('Century Club'); elNext.disabled = false; }
-      else { streak = 0; buttons[choice].classList.add('wrong'); const right = item.correctIndex; buttons[right]?.classList.add('correct'); beep(200,'square',0.08,0.05); toast('❌ Try again soon'); const reinsertAt = Math.min(queue.length, currentIndex + 5); queue.splice(reinsertAt, 0, idx); elNext.disabled = false; }
-      saveState(); updateKpis();
-    }
-
-    function next(){ if(currentIndex < queue.length-1){ currentIndex++; } else { currentIndex = Math.min(currentIndex, queue.length-1); } saveState(); render(); }
-
-    document.getElementById('hintBtn').addEventListener('click', ()=>{ elHint.classList.add('show'); });
-    document.getElementById('skipBtn').addEventListener('click', ()=>{ streak = 0; next();});
-    document.getElementById('nextBtn').addEventListener('click', next);
-    document.getElementById('resetBtn').addEventListener('click', ()=>{ if(confirm('Erase local progress and restart?')){ wipeAll(); const p=getProfile(); const keepPass = !!p?.usePass; if(!keepPass) localStorage.removeItem(profileKey); queue=[...BANK.map((_, i)=>i)]; currentIndex=0; answered=0; correct=0; streak=0; badges=[]; renderBadges(); updateKpis(); render(); } });
-
-    // --- Settings / Profile modal logic ---
-    function openProfile(){
-      const p = getProfile();
-      profileModal.hidden = false; nameInput.value = p?.name || ''; usePassCb.checked = !!p?.usePass; passRows.hidden = !usePassCb.checked; pass1.value=''; pass2.value='';
-    }
-    settingsBtn.addEventListener('click', openProfile);
-    cancelProfileBtn.addEventListener('click', ()=>{ profileModal.hidden = true; });
-
-    saveProfileBtn.addEventListener('click', async ()=>{
-      const name = nameInput.value.trim() || 'Guest';
-      if(usePassCb.checked){
-        if(pass1.value.length < 4){ alert('Passcode should be at least 4 characters.'); return; }
-        if(pass1.value !== pass2.value){ alert('Passcodes do not match.'); return; }
-        const payload = await encryptJson({hello:'world'}, pass1.value); // derive salt
-        setProfile({name, usePass:true, saltB64: payload.saltB64});
-        sessionStorage.setItem('wl_session_pass', pass1.value);
-        userPill.textContent = '👤 ' + name;
-        profileModal.hidden = true;
-        await saveState();
-        toast('🔐 Passcode enabled');
-      } else {
-        setProfile({name, usePass:false}); sessionStorage.removeItem('wl_session_pass');
-        // migrate encrypted -> plain if previously encrypted
-        const rawEnc = localStorage.getItem(stateKeyEnc);
-        if(rawEnc){ localStorage.removeItem(stateKeyEnc); }
-        userPill.textContent = '👤 ' + name; profileModal.hidden = true; await saveState(); toast('💾 Profile saved');
-      }
-    });
-
-    function showUnlock(p){ unlockUser.textContent = `Profile: ${p.name||'User'}`; unlockModal.hidden = false; }
-    unlockGo.addEventListener('click', async ()=>{
-      const p = getProfile(); const pass = unlockPass.value;
-      try{ const payload = JSON.parse(localStorage.getItem(stateKeyEnc)||'null'); if(!payload){ applyState(defaultState()); unlockModal.hidden=true; return;}
-        const s = await decryptJson(payload, pass); applyState(s); sessionStorage.setItem('wl_session_pass', pass); unlockModal.hidden = true; userPill.textContent = '👤 ' + (p?.name||'User'); render(); toast('🔓 Unlocked');
-      }catch(e){ alert('Incorrect passcode.'); }
-    });
-    unlockErase.addEventListener('click', ()=>{ if(confirm('Erase all local data for this app?')){ wipeAll(); sessionStorage.removeItem('wl_session_pass'); applyState(defaultState()); unlockModal.hidden = true; toast('🗑️ Data erased'); render(); }});
-
-    // --- Init ---
-    (async function init(){
-      // If no profile, prompt setup
-      const p = getProfile();
-      if(!p){ profileModal.hidden = false; } else {
-        userPill.textContent = '👤 ' + (p.name||'Guest');
-      }
-      await loadState();
-      if(!getProfile()?.usePass){ render(); }
-    })();
-  </script>
+render();
+</script>
 </body>
 </html>
