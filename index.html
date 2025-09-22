@@ -61,6 +61,7 @@
 
     /* Modal */
     .modal{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.6); backdrop-filter: blur(3px);} 
+    .modal[hidden]{display:none !important;} 
     .sheet{width:min(520px, 92%); background:var(--panel); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:18px; box-shadow: var(--shadow)}
     .row{display:flex; gap:10px; align-items:center; margin:8px 0}
     label{font-size:14px; color:var(--muted)}
@@ -155,7 +156,7 @@
       <div class="row"><label for="name">Display name</label></div>
       <div class="row"><input id="name" type="text" placeholder="e.g., Guest" autocomplete="name" /></div>
       <div class="row" style="justify-content:flex-end; gap:8px">
-        <button class="control" id="saveProfile">Save</button>
+        <button class="control" id="saveProfile" type="button">Save</button>
       </div>
     </div>
   </div>
@@ -352,7 +353,14 @@
     function openProfile(){ profileModal.hidden = false; nameInput.value = (getProfile()?.name || ''); }
     document.getElementById('settingsBtn').addEventListener('click', openProfile);
 
-    saveProfileBtn.addEventListener('click', ()=>{ const name = nameInput.value.trim() || 'Guest'; setProfile({name}); userPill.textContent = '👤 ' + name; profileModal.hidden = true; });
+    saveProfileBtn.addEventListener('click', ()=>{
+      const name = nameInput.value.trim() || 'Guest';
+      setProfile({name});
+      userPill.textContent = '👤 ' + name;
+      profileModal.hidden = true;
+      // ensure focus returns to main app for keyboard users
+      document.getElementById('hintBtn').focus();
+    }); userPill.textContent = '👤 ' + name; profileModal.hidden = true; });
 
     // --- Init ---
     (function init(){
@@ -366,4 +374,3 @@
   </script>
 </body>
 </html>
-
